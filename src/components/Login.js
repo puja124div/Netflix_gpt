@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 
 const Login = () => {
+    const [isSignInForm,setIsSignInform]=useState(true);
+    const toggleSignup=()=>{
+        setIsSignInform(!isSignInForm);
+    }
   return (
     <div>
       <Header />
@@ -11,12 +15,17 @@ const Login = () => {
           alt=""
         />
       </div>
-      <div className="h-screen w-screen flex flex-col items-center justify-center">
-      <form className="h-3/5 relative bg-black p-8  w-3/12 flex flex-col ">
-        <input type="email" placeholder="Email" className="p-2 m-4 bg-slate-700" />
-        <input type="password" placeholder="****" className="p-2 m-4 bg-slate-700" />
-        <button type="submit "className="bg-white p-2 m-4 bg-red-700">submit</button>
+      <div className="h-screen flex  items-center justify-center text-white">
+      <form className=" relative bg-black p-4  w-3/12   rounded-lg bg-opacity-75 sm:p-6 lg:8 ">
+      <label  className="text-xl font-bold my-2"> {isSignInForm?'Sign In':'Sign Up'}</label>
+      {!isSignInForm &&  <input type="text" placeholder="Name" className="p-2  my-4 bg-slate-700 w-full" />}
+        <input type="email" placeholder="Email" className="p-2  my-4 bg-slate-700 w-full" />
+        <input type="password" placeholder="password" className="p-2  my-4 bg-slate-700 w-full" />
+        <button type="submit "className="bg-red-700 p-2  w-full my-4 ">{isSignInForm?'Sign In':'Sign Up'}</button>
+        <p className="my-4 cursor-pointer" onClick={toggleSignup}> {isSignInForm?'New to Netflix ? Sign Up Now':'Already registered!!! Start Watching !!'}
+            </p>
       </form>
+      
       </div>
     </div>
   );
