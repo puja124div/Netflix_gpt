@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { validate } from "../utils/Validate";
 
 const Login = () => {
-    const [isSignInForm,setIsSignInform]=useState(true);
-    const toggleSignup=()=>{
-        setIsSignInform(!isSignInForm);
-    }
+  const [isSignInForm, setIsSignInform] = useState(true);
+  const [errorMsg,setErrorMsg]=useState(null);
+  const email=useRef();
+  const password=useRef();
+  const toggleSignup = () => {
+    setIsSignInform(!isSignInForm);
+  };
+  const checkValidation=()=>{
+   const massage= validate(email.current.value,password.current.value);
+   //console.log(massage)
+   setErrorMsg(massage);
+
+  }
+  console.log(checkValidation);
   return (
     <div>
       <Header />
@@ -16,16 +27,41 @@ const Login = () => {
         />
       </div>
       <div className="h-screen flex  items-center justify-center text-white">
-      <form className=" relative bg-black p-4  w-3/12   rounded-lg bg-opacity-75 sm:p-6 lg:8 ">
-      <label  className="text-xl font-bold my-2"> {isSignInForm?'Sign In':'Sign Up'}</label>
-      {!isSignInForm &&  <input type="text" placeholder="Name" className="p-2  my-4 bg-slate-700 w-full" />}
-        <input type="email" placeholder="Email" className="p-2  my-4 bg-slate-700 w-full" />
-        <input type="password" placeholder="password" className="p-2  my-4 bg-slate-700 w-full" />
-        <button type="submit "className="bg-red-700 p-2  w-full my-4 ">{isSignInForm?'Sign In':'Sign Up'}</button>
-        <p className="my-4 cursor-pointer" onClick={toggleSignup}> {isSignInForm?'New to Netflix ? Sign Up Now':'Already registered!!! Start Watching !!'}
-            </p>
-      </form>
-      
+        <form onSubmit={(e)=>{e.preventDefault()}} className=" relative bg-black p-4  w-3/12   rounded-lg bg-opacity-75 sm:p-6 lg:8 ">
+          <label className="text-xl font-bold my-2">
+            {" "}
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </label>
+          {!isSignInForm && (
+            <input
+              type="text"
+              placeholder="Name"
+              className="p-2  my-4 bg-slate-700 w-full"
+            />
+          )}
+          <input
+            ref={email}
+            type="email"
+            placeholder="Email"
+            className="p-2  my-4 bg-slate-700 w-full"
+          />
+          <input
+          ref={password}
+            type="password"
+            placeholder="password"
+            className="p-2  my-4 bg-slate-700 w-full"
+          />
+          <p className="text-red-700 text-xl font-bold">{errorMsg}</p>
+          <button type="submit " className="bg-red-700 p-2  w-full my-4 " onClick={checkValidation}>
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </button>
+          <p className="my-4 cursor-pointer" onClick={toggleSignup}>
+            {" "}
+            {isSignInForm
+              ? "New to Netflix ? Sign Up Now"
+              : "Already registered!!! Start Watching !!"}
+          </p>
+        </form>
       </div>
     </div>
   );
