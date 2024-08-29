@@ -7,16 +7,19 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+
 import download from './download.png';
+import { addUser } from "../utils/userSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [isSignInForm, setIsSignInform] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
-  const navigate = useNavigate();
+
   const email = useRef();
   const password = useRef();
   const name=useRef();
+  const dispatch=useDispatch()
   const toggleSignup = () => {
     setIsSignInform(!isSignInForm);
   };
@@ -42,12 +45,14 @@ const Login = () => {
           //update
           updateProfile(user, {
             displayName:name.current.value ,
-            photoURL: "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png"
+            photoURL: "https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png",
             })
             .then(() => {
               // Profile updated!
               // ...
-              navigate("/browse");
+              const { uid, email, displayName ,photoURL} = auth.currentUser;
+              dispatch(addUser({ uid: uid, email: email, displayName: displayName ,photoURL:photoURL}));
+             
             })
             .catch((error) => {
               // An error occurred
@@ -73,7 +78,7 @@ const Login = () => {
           const user = userCredential.user;
           console.log(user);
 
-          navigate("/browse");
+         
         })
         .catch((error) => {
           const errorCode = error.code;
