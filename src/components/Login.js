@@ -40,7 +40,7 @@ const Login = () => {
         .then((userCredential) => {
           // Sign up
           const user = userCredential.user;
-          console.log(user);
+          //console.log(user);
 
           //update
           updateProfile(user, {
@@ -76,7 +76,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          //console.log(user);
 
          
         })
